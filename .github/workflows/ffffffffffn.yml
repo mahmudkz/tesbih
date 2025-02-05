@@ -1,4 +1,4 @@
-name: All Builds (apk)
+name: All Builds (APK)
 
 on:
   # Runs on push to any of the below branches
