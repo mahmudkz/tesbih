@@ -3,5 +3,4 @@ kivy-examples
 python-for-android
 buildozer
 cython
-plyer
-android
+
