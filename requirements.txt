@@ -1,2 +1,10 @@
-kivy
-plyer
+flet==0.21.2
+kivy==2.3.0
+numpy==1.26.4
+pandas==2.2.1
+requests==2.31.0
+opencv-python==4.9.0.80
+matplotlib==3.8.3
+Pillow==10.2.0
+plyer==3.0.2
+python-for-android==2024.4.6
