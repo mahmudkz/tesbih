@@ -39,7 +39,7 @@ jobs:
         sudo apt update -y
         sudo apt install -y git zip unzip openjdk-17-jdk libtool autoconf
         python -m pip install --upgrade pip
-        pip install buildozer cython
+        pip install buildozer cython setuptools
 
     - name: Initialize Buildozer
       run: |
