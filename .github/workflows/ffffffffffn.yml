@@ -41,6 +41,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install buildozer cython
 
+    - name: Navigate to project directory
+      run: |
+        cd path/to/your/project
+
     - name: Update configure.ac
       run: |
         autoupdate
