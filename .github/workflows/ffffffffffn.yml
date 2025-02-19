@@ -63,11 +63,11 @@ jobs:
 
     - name: Accept Android SDK Licenses
       run: |
-        yes | $HOME/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager --licenses
+        yes | $HOME/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
 
     - name: Install Android SDK Build-Tools
       run: |
-        $HOME/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager "build-tools;34.0.0"
+        $HOME/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "build-tools;34.0.0"
 
     - name: Build Android APK
       run: |
