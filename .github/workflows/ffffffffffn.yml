@@ -41,15 +41,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install buildozer cython
 
-    - name: Navigate to project directory
+    - name: Navigate to project directory (if needed)
       run: |
-        cd path/to/your/project
+        cd src  # استبدل "src" باسم المجلد الفعلي أو احذف هذه الخطوة إذا لم يكن هناك مجلد فرعي
 
-    - name: Update configure.ac
+    - name: Update configure.ac (if needed)
       run: |
         autoupdate
 
-    - name: Run autoreconf
+    - name: Run autoreconf (if needed)
       run: |
         autoreconf -fvi
 
