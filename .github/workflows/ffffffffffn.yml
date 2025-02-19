@@ -15,6 +15,8 @@ env:
   BUILD_NUMBER: 1
   BUILD_VERSION: 1.0.0
   PYTHON_VERSION: 3.12.2
+  ANDROID_HOME: /home/runner/.buildozer/android/platform/android-sdk
+  ANDROID_SDK_ROOT: /home/runner/.buildozer/android/platform/android-sdk
 
 jobs:
   build-android:
@@ -53,6 +55,11 @@ jobs:
       run: |
         buildozer -v android debug 2>&1 | grep -v "WARNING"
         # This step will initialize the Android SDK if not already done
+
+    - name: Create .android directory and repositories.cfg
+      run: |
+        mkdir -p ~/.android
+        touch ~/.android/repositories.cfg
 
     - name: Accept Android SDK Licenses
       run: |
