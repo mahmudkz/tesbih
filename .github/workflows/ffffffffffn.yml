@@ -41,10 +41,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install buildozer cython
 
-    - name: Navigate to project directory
-      run: |
-        cd app  # استبدل "app" باسم المجلد الفعلي
-
     - name: Initialize Buildozer
       run: |
         buildozer init
