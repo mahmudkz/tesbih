@@ -1,6 +1,9 @@
 name: Build APK
 
-on: [push]
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -13,7 +16,7 @@ jobs:
       with:
         python-version: "3.11"
         
-    - name: Install dependencies
+    - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y \
@@ -23,11 +26,29 @@ jobs:
           openjdk-17-jdk \
           libtool \
           autoconf
-        pip install buildozer setuptools
+          
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install buildozer kivy plyer
+        
+    - name: Initialize Buildozer
+      run: |
+        buildozer init
+        sed -i "s/^requirements = .*/requirements = python3,kivy,plyer/" buildozer.spec
+        sed -i "s/^android.sdk_version = .*/android.sdk_version = 34/" buildozer.spec
+        sed -i "s/^android.ndk = .*/android.ndk = 26.1.10909125/" buildozer.spec
+        
+    - name: Accept licenses
+      run: |
+        yes | $HOME/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
         
     - name: Build APK
       run: |
-        buildozer init
-        cp buildozer.spec buildozer.spec.bak
-        curl -O https://gist.githubusercontent.com/mahmudkz/.../raw/buildozer.spec
         buildozer -v android debug
+        
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: myapp-apk
+        path: bin/*.apk
