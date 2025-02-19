@@ -15,8 +15,6 @@ env:
   BUILD_NUMBER: 1
   BUILD_VERSION: 1.0.0
   PYTHON_VERSION: 3.12.2
-  ANDROID_HOME: /home/runner/.buildozer/android/platform/android-sdk
-  ANDROID_SDK_ROOT: /home/runner/.buildozer/android/platform/android-sdk
 
 jobs:
   build-android:
@@ -39,9 +37,17 @@ jobs:
     - name: Install Buildozer and Dependencies
       run: |
         sudo apt update -y
-        sudo apt install -y git zip unzip openjdk-17-jdk
+        sudo apt install -y git zip unzip openjdk-17-jdk libtool autoconf
         python -m pip install --upgrade pip
         pip install buildozer cython
+
+    - name: Update configure.ac
+      run: |
+        autoupdate
+
+    - name: Run autoreconf
+      run: |
+        autoreconf -fvi
 
     - name: Initialize Buildozer
       run: |
@@ -50,24 +56,6 @@ jobs:
         sed -i 's/^package.name = .*/package.name = myapp/' buildozer.spec
         sed -i 's/^package.domain = .*/package.domain = org.test/' buildozer.spec
         sed -i 's/^requirements = .*/requirements = python3,kivy,plyer/' buildozer.spec
-
-    - name: Set up Android SDK with Buildozer
-      run: |
-        buildozer -v android debug 2>&1 | grep -v "WARNING"
-        # This step will initialize the Android SDK if not already done
-
-    - name: Create .android directory and repositories.cfg
-      run: |
-        mkdir -p ~/.android
-        touch ~/.android/repositories.cfg
-
-    - name: Accept Android SDK Licenses
-      run: |
-        yes | $HOME/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
-
-    - name: Install Android SDK Build-Tools
-      run: |
-        $HOME/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "build-tools;34.0.0"
 
     - name: Build Android APK
       run: |
