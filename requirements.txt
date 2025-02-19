@@ -1,5 +1,7 @@
 kivy
-kivy==2.2.1
 kivy-examples
 python-for-android
-kivymd
+buildozer
+cython
+plyer
+android
