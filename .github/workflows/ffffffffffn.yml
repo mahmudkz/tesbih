@@ -7,8 +7,10 @@ on:
 
 env:
   BUILD_NUMBER: 1
-  BUILD_VERSION: 1.0.0
-  PYTHON_VERSION: 3.12.2
+  BUILD_VERSION: "1.0.0"
+  PYTHON_VERSION: "3.12"
+  ANDROID_HOME: /home/runner/.buildozer/android/platform/android-sdk
+  ANDROID_SDK_ROOT: /home/runner/.buildozer/android/platform/android-sdk
 
 jobs:
   build-android:
@@ -24,7 +26,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo apt-get update
+          sudo apt-get update -y
           sudo apt-get install -y \
             git \
             zip \
@@ -45,6 +47,12 @@ jobs:
           buildozer init
           sed -i "s/^requirements = .*/requirements = python3,kivy,plyer/" buildozer.spec
           sed -i "s/^android.ndk = .*/android.ndk = 26.1.10909125/" buildozer.spec
+          sed -i "s/^android.sdk_version = .*/android.sdk_version = 34/" buildozer.spec
+
+      - name: Accept licenses and install tools
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0" "platform-tools"
 
       - name: Build APK
         run: |
